@@ -18,6 +18,15 @@
           </template>
           <el-menu-item index="教师列表" route="admin">教师列表</el-menu-item>
         </el-submenu>
+        <el-submenu index="学生管理" style="background-color: #42485b" >
+          <template slot="title">
+            <p style="color:#ffffff;font-size: 14px; ">
+              <i class="icon-xinwen" style="width: 18px;height: 18px"></i>
+<!--              <img src="../../assets/basic_msg.png" style="width: 16px;height: 16px"/>-->
+              &nbsp;&nbsp;学生管理</p>
+          </template>
+          <el-menu-item index="学生列表" route="student">学生列表</el-menu-item>
+        </el-submenu>
 
 <!--        <el-submenu index="老人管理" style="background-color: #42485b" >-->
 <!--          <template slot="title">-->

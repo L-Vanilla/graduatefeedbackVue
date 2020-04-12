@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Message,Loading,MessageBox } from 'element-ui';
+import el from "element-ui/src/locale/lang/el";
 export default {
   get:function(url,callback,params={}){
     let myloading= Loading.service();
@@ -24,11 +25,22 @@ export default {
     }
     let myloading= Loading.service();
      axios.post(url,formData,config).then(result=>{
-      Message({
-        message: "success",
-        type:"success"
-      });
-      callback(result.data);
+       /*通过if-else实现判断学号是否存在-------0*/
+      if(result.data>0){
+        Message({
+          message: "success",
+          type:"success"
+        });
+      }
+      else {
+        Message({
+          message: "学号已经存在",
+          type: "error"
+        });
+      }
+        /*------------------------------1*/
+        callback(result.data);
+      console.log("result.data"+result.data);
     }).catch(err=>{
       Message({
         showClose: true,

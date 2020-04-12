@@ -3,6 +3,7 @@ import Router from 'vue-router'
 /*后台系统管理员---------------------------------------------*/
 import AdminIndex from '@/components/adminIndex'
 import Admin from '@/components/admin/list'//管理员列表
+import Student from '@/components/student/list'//学生列表
 /*------------------------------------------------------------------------*/
 
 /*统计*/
@@ -20,6 +21,10 @@ const router = new Router({
           path:'/admin',/*管理员*/
           name:'admin',
           component:Admin
+        },{
+          path:'/student',/*学生列表*/
+          name:'student',
+          component:Student
         },
       ]
     },
