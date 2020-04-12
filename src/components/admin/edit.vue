@@ -11,6 +11,9 @@
         <el-form-item label="手机号" prop="phone" >
             <el-input v-model="ruleForm.phone"   placeholder="请输入手机号" style="width:300%"></el-input>
         </el-form-item>
+        <el-form-item label="身份证" prop="idCard" >
+            <el-input v-model="ruleForm.idCard"   placeholder="请输入身份证号" style="width:300%"></el-input>
+        </el-form-item>
         <el-form-item label="性别" prop="sex" >
           <el-radio-group v-model="ruleForm.sex">
             <el-radio  :label="0">男</el-radio>
@@ -64,20 +67,19 @@
         }, 100)
       };
       /*验证身份证号start*/
-      // let checkcredentialsNum = (rule, value, callback) => {
-      //   const credentialsNumReg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
-      //   if (!value) {
-      //     return callback(new Error("身份证编号不能为空"))
-      //   }
-      //   setTimeout(() => {
-      //     if (credentialsNumReg.test(value)) {
-      //       callback()
-      //     } else {
-      //       callback(new Error("身份证编号格式不正确"))
-      //     }
-      //
-      //   }, 100)
-      // };
+      let checkcredentialsNum = (rule, value, callback) => {
+        const credentialsNumReg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+        if (!value) {
+          return callback(new Error("身份证编号不能为空"))
+        }
+        setTimeout(() => {
+          if (credentialsNumReg.test(value)) {
+            callback()
+          } else {
+            callback(new Error("身份证编号格式不正确"))
+          }
+        }, 100)
+      };
       /*----------验证身份证end*/
       return {
           ruleForm:{
@@ -85,6 +87,7 @@
             name:"",
             password:"",
             phone:"",
+            idCard:"",
             sex:"",
             mail:"",
             college:"",
@@ -106,9 +109,9 @@
             phone: [
               { required: true, trigger: 'blur',validator: checkPhone }//设置全局变量
             ] ,
-            // idCard: [
-            //   { required: true, trigger: 'blur',validator: checkcredentialsNum }//设置全局变量
-            // ]
+            idCard: [
+              { required: true, trigger: 'blur',validator: checkcredentialsNum }//设置全局变量
+            ]
         },
         buttonText:"创建"
 
@@ -139,9 +142,9 @@
             }
             else{
               /*设置身份证后四位为密码---0*/
-              let phone=this.ruleForm.phone;
-              console.log("phone"+phone);
-              this.ruleForm.password=phone.substring(phone.length-6,phone.length);
+              let idCard=this.ruleForm.idCard;
+              console.log("idCard"+idCard);
+              this.ruleForm.password=idCard.substring(idCard.length-6,idCard.length);
               /*=-----------设置身份证后四位为密码---1---------*/
               url="admin/add";
             }

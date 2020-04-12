@@ -20,13 +20,17 @@
         type="index"
         width="50">
       </el-table-column>
-<!--      <el-table-column-->
-<!--        prop="id"-->
-<!--        label="编号">-->
-<!--      </el-table-column>-->
+      <el-table-column
+        prop="id"
+        label="职工号">
+      </el-table-column>
       <el-table-column
         prop="name"
         label="姓名">
+      </el-table-column>
+      <el-table-column
+        prop="password"
+        label="密码">
       </el-table-column>
       <el-table-column
         prop="sex"
@@ -36,6 +40,10 @@
       <el-table-column
         prop="phone"
         label="手机">
+      </el-table-column>
+      <el-table-column
+        prop="idCard"
+        label="身份证">
       </el-table-column>
       <el-table-column
         prop="mail"
