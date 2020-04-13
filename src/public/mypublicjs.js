@@ -25,22 +25,21 @@ export default {
     }
     let myloading= Loading.service();
      axios.post(url,formData,config).then(result=>{
-       /*通过if-else实现判断学号是否存在-------0*/
-      if(result.data>0){
+       /*通过操作是否成功-------0*/
+      if(result.data.statu === 0){
         Message({
-          message: "success",
+          message: result.data.msg,
           type:"success"
         });
       }
       else {
         Message({
-          message: "学号已经存在",
+          message: result.data.msg,
           type: "error"
         });
       }
         /*------------------------------1*/
-        callback(result.data);
-      console.log("result.data"+result.data);
+        callback(result.data.statu);
     }).catch(err=>{
       Message({
         showClose: true,

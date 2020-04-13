@@ -64,9 +64,14 @@ Vue.prototype.reset=function(formName){
   this.$refs[formName].resetFields();
 }
 Vue.prototype.post=function(formName,url,params,
-                            callback=()=>{
-                              this.$layer.closeAll();
-                              this.reload()
+                            callback=(statu)=>{
+                              /*4-13判断是否成功*/
+                              console.log("statu"+statu);
+                              if(statu === 0){
+                                this.$layer.closeAll();
+                                this.reload()
+                              }
+                              /*--------------------*/
                             }
   ,config={}){
   this.$refs[formName].validate((valid) => {
@@ -80,11 +85,21 @@ Vue.prototype.post=function(formName,url,params,
 Vue.prototype.delete=function(url,id,status){
   mypublic.del(id,status,(id,status)=>{
     mypublic.get(url,(result)=>{
-      this.$message({
-        showClose: true,
-        message: 'success',
-        type: 'success'
-      });
+      /*4-13判断删除是否成功*/
+      if(result.statu === 0){
+        this.$message({
+          showClose: true,
+          message: result.msg,
+          type: 'success'
+        });
+      }else{
+        this.$message({
+          showClose: true,
+          message: result.msg,
+          type: 'error'
+        });
+      }
+      /*----------*/
       this.reload();
     },{id:id,active:status});
   })

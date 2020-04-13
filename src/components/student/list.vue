@@ -113,8 +113,8 @@
     mounted(){},
     methods:{
       getData(){
-        this.get("student/list",(data)=>{
-          this.tableData=data;
+        this.get("student/list",(res)=>{
+          this.tableData=res.data;
           console.log(this.tableData);
         },this.queryParams);
       },

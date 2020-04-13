@@ -111,8 +111,8 @@
     },
     created(){
         if(this.id){
-             this.get("student/getOne",(data)=>{
-                this.ruleForm=data;
+             this.get("student/getOne",(res)=>{
+                this.ruleForm=res.data;
                 console.log(this.ruleForm);
             },{id:this.id});
             this.buttonText="修改"

@@ -121,9 +121,9 @@
     mounted(){},
     methods:{
       getData(){
-        this.get("admin/list",(data)=>{
-          this.tableData=data;
-          console.log(this.tableData);
+        this.get("admin/list",(res)=>{
+          this.tableData=res.data;
+          console.log(res.msg);
         },this.queryParams);
       },
       sexformat(row, column, cellValue, index){

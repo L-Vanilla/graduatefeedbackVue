@@ -119,9 +119,9 @@
     },
     created(){
         if(this.id){
-             this.get("admin/getOne",(data)=>{
-                this.ruleForm=data;
-                console.log(this.ruleForm);
+             this.get("admin/getOne",(res)=>{
+                this.ruleForm=res.data;
+                console.log(res.msg);
             },{id:this.id});
             this.buttonText="修改"
         }
