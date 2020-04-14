@@ -60,10 +60,9 @@
         label="班级">
       </el-table-column>
       <el-table-column
-        prop="phone"
         label="手机">
         <template slot-scope="scope">
-          <span v-if="scope.row.phone!==null ">{{ scope.row.phone }}</span>
+          <span v-if="scope.row.phone!=='null'&&scope.row.phone!==null ">{{ scope.row.phone }}</span>
           <span v-else>暂无绑定手机号</span>
         </template>
       </el-table-column>
@@ -71,7 +70,7 @@
         prop="mail"
         label="邮箱">
           <template slot-scope="scope">
-            <span v-if="scope.row.mail!==null ">{{ scope.row.mail }}</span>
+            <span v-if="scope.row.mail!=='null '&&scope.row.mail">{{ scope.row.mail }}</span>
             <span v-else>暂无绑定邮箱</span>
           </template>
       </el-table-column>
