@@ -16,7 +16,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import mypublic from '@/public/mypublicjs'
 import axios from 'axios'
 import layer from 'vue-layer'
-// import store from './vuex/store.js'
+/*引用excel*/
+// import Export2Excel from './vendor/Export2Excel.js'
+import store from './vuex/store.js'
 /*粒子---------*/
 // import VueParticles from 'vue-particles'
 // Vue.use(VueParticles);
@@ -109,7 +111,7 @@ axios.defaults.withCredentials = true
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  // store,
+  store,
   router,
   components: { App },
   template: '<App/>'

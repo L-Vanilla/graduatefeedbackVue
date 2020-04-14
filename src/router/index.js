@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import AdminIndex from '@/components/adminIndex'
 import Admin from '@/components/admin/list'//管理员列表
 import Student from '@/components/student/list'//学生列表
+import StudentinfoUpload from '@/components/student/infoUpload'//学生列表
 /*------------------------------------------------------------------------*/
 
 /*统计*/
@@ -25,6 +26,11 @@ const router = new Router({
           path:'/student',/*学生列表*/
           name:'student',
           component:Student
+        },
+        {
+          path:'/studentinfoUpload',/*学生信息导入*/
+          name:'studentinfoUpload',
+          component:StudentinfoUpload
         },
       ]
     },

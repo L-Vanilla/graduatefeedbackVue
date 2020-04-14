@@ -13,14 +13,17 @@
     "axios": "^0.18.0",
     "echarts": "^4.2.1",
     "element-ui": "^2.8.2",
+    "file-saver": "^2.0.2",
     "moment": "^2.24.0",
+    "stylus-loader": "^3.0.2",
     "vue": "^2.5.2",
     "vue-layer": "^0.9.13",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.1.1",
     "vuex-persistedstate": "^2.5.4",
-    "wangeditor": "^3.1.1"
+    "wangeditor": "^3.1.1",
+    "xlsx": "^0.15.6"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -47,6 +50,7 @@
     "postcss-loader": "^2.0.8",
     "postcss-url": "^7.2.1",
     "rimraf": "^2.6.0",
+    "script-loader": "^0.7.2",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
     "uglifyjs-webpack-plugin": "^1.1.1",

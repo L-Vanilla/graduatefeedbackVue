@@ -26,6 +26,7 @@
               &nbsp;&nbsp;学生管理</p>
           </template>
           <el-menu-item index="学生列表" route="student">学生列表</el-menu-item>
+          <el-menu-item index="上传学生信息" route="studentinfoUpload">上传学生信息</el-menu-item>
         </el-submenu>
 
 <!--        <el-submenu index="老人管理" style="background-color: #42485b" >-->
