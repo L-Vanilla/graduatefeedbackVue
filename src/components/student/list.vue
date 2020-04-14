@@ -4,11 +4,25 @@
     <div style="margin-top: 15px;margin-bottom: 10px">
       <el-row>
         <el-col :span="2"><el-button style="background-color: #5fb381;color: #fff" @click="add">添加</el-button></el-col>
-        <el-col :span="22">
+        <el-col :span="7">
           <el-input placeholder="请输入姓名" v-model="search.name" class="input-with-select" style="width: 200px">
             <el-button slot="append" icon="el-icon-search" @click="findData"></el-button>
           </el-input>
         </el-col>
+        <!--导出excel---当前页面-   ----------0-->
+        <el-col :span="7">
+          <el-button v-waves :loading="downloadLoading" style="margin-left: 0;margin-right: 10px;" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
+            导出当前页学生信息
+          </el-button>
+        </el-col>
+        <!--导出全部学生-->
+        <el-col :span="7">
+        <el-button v-waves :loading="downloadLoading" style="margin-left: 0;" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownloadAll">
+          导出全部学生信息
+        </el-button>
+        </el-col>
+
+        <!-----------------------1-->
       </el-row>
     </div>
     <el-table
@@ -48,10 +62,18 @@
       <el-table-column
         prop="phone"
         label="手机">
+        <template slot-scope="scope">
+          <span v-if="scope.row.phone!==null ">{{ scope.row.phone }}</span>
+          <span v-else>暂无绑定手机号</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="mail"
         label="邮箱">
+          <template slot-scope="scope">
+            <span v-if="scope.row.mail!==null ">{{ scope.row.mail }}</span>
+            <span v-else>暂无绑定邮箱</span>
+          </template>
       </el-table-column>
       <el-table-column
         prop="createDate"
@@ -82,12 +104,18 @@
 
 <script>
   import EditStudent from '@/components/student/edit'
+  import waves from '@/directive/waves' // Waves directive
   // import DetailsStudent from '@/components/student/details'
   export default {
     inject:['reload'],
     name:"student",
+    directives: { waves },
+
     data () {
       return {
+        /*下载---*/
+        downloadLoading: false,
+        /*---------*/
         search:{
           name:""
         },
@@ -96,7 +124,8 @@
           pageSize:10,
           name:""
         },
-        tableData:{}
+        tableData:{},
+        students:{}
       }
     },
     created(){
@@ -117,6 +146,7 @@
           this.tableData=res.data;
           console.log(this.tableData);
         },this.queryParams);
+
       },
       sexformat(row, column, cellValue, index){
         return cellValue==1?"女":"男";
@@ -154,6 +184,57 @@
           shadeClose: false,
           shade :true
         });
+      },
+      /*导出当前页面数据*/
+      handleDownload(){
+        this.downloadLoading = true;
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['学号', '姓名', '性别', '学院', '专业', '班级', '手机号', '邮箱'];
+          const filterVal = ['id', 'name', 'sex', 'college', 'specialty', 'grade', 'phone', 'mail'];
+          const data = this.formatJson(filterVal, this.tableData.list);
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '当前页学生信息表'
+          });
+          this.downloadLoading = false;
+        })
+      },
+
+      /*导出全部学生*/
+      handleDownloadAll(){
+        this.downloadLoading = true;
+        this.get("student/getAll",(res)=>{
+          this.students=res.data;
+          console.log("导出全部学生"+this.students);
+        });
+        // let list = JSON.stringify(this.students);
+        // console.log("list"+list);
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['学号', '姓名', '性别', '学院', '专业', '班级', '手机号', '邮箱'];
+          const filterVal = ['id', 'name', 'sex', 'college', 'specialty', 'grade', 'phone', 'mail'];
+          const data = this.formatJson(filterVal, this.students);
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '全部学生信息表'
+          })
+          this.downloadLoading = false;
+        })
+      },
+      /*格式化*/
+      formatJson(filterVal, jsonData) {
+        return jsonData.map(v => filterVal.map(j => {
+           if (j === 'sex') {
+            return v[j] === '1' ? '女' : '男'
+          } else if (j === 'mail') {
+            return v[j] || '暂无绑定邮箱'
+          } else if (j === 'phone') {
+            return v[j] || '暂无绑定手机号'
+          } else {
+            return v[j]
+          }
+        }))
       },
       // details(row){
       //   this.$layer.iframe({

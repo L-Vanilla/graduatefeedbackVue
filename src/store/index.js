@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import app from './modules/app'
 // import user from './modules/user'
 import admin from './modules/admin'
-import getters from './getters'
+import * as getters from './getters'
 
 Vue.use(Vuex)
 
