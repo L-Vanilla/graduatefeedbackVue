@@ -13,7 +13,7 @@
       <span style="color: #FF0000;margin-left: 30px">失败总记录条数：{{ failItemCount }}</span>
     </div>
     <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
-      <el-table-column v-for="item of tableHeader" :key="item" :prop="item" :label="item" />
+      <el-table-column v-for="item of tableHeader" :key="item"  :prop="item" :label="item"  />
     </el-table>
   </div>
 </template>
@@ -38,14 +38,27 @@ export default {
     }
   },
   methods: {
+    // sexformat(item){
+    //  for (var i=0;i<item.length;i++){
+    //    if
+    //  }
+    //   // if(row.key==='sex'){
+    //   //   return cellValue==1?"女":"男";
+    //   // }
+    //
+    // },
     handleDownload() {
       this.downloadLoading = true;
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = [
           '(必填)学号(9位数字)',
           '(必填)姓名',
+          '(必填)性别（男/女）',
           '(必填)学院',
           '(必填)专业',
+          '(必填)班级',
+          '(必填)邮箱',
+          '(必填)手机号',
         ]
         excel.export_json_to_excel({
           header: tHeader,
@@ -79,11 +92,20 @@ export default {
           if (key === '(必填)姓名') {
             student.name = item[key]
           }
+          if (key === '(必填)性别（男/女）') {
+            student.sex = item[key]
+          }
           if (key === '(必填)学院') {
             student.college = item[key]
           }
           if (key === '(必填)专业') {
             student.specialty = item[key]
+          } if (key === '(必填)班级') {
+            student.grade = item[key]
+          } if (key === '(必填)邮箱') {
+            student.mail = item[key]
+          } if (key === '(必填)手机号') {
+            student.phone = item[key]
           }
         });
         studentList.push(student)
@@ -92,7 +114,6 @@ export default {
     },
     // 插入数据库学生信息表
      insertStudentInfoList(studentList) {
-        console.log("studentList"+studentList);
        this.axios({
          method: 'post',
          url: 'student/insertStudentInfoList',
@@ -101,7 +122,15 @@ export default {
         .then(result => {
           console.log("map"+result.data);
           if (result.data.statu === 0) {
-            this.tableHeader = ['学号', '姓名', '学院','专业', '上传状态'];
+            this.tableHeader = ['学号',
+                                '姓名',
+                                '性别',
+                                '学院',
+                                '专业',
+                                '班级',
+                                '邮箱',
+                                '手机号',
+                                '上传状态'];
             this.tableData = result.data.data.responseList;
             this.allItemCount = result.data.data.allItemCount;
             this.successItemCount = result.data.data.successItemCount;

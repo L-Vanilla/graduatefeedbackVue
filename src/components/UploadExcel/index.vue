@@ -34,9 +34,9 @@ export default {
   },
   methods: {
     generateData({ header, results }) {
-      this.excelData.header = header
-      this.excelData.results = results
-      this.onSuccess && this.onSuccess(this.excelData)
+      this.excelData.header = header;
+      this.excelData.results = results;
+      this.onSuccess && this.onSuccess(this.excelData);
     },
     handleDrop(e) {
       e.stopPropagation()
@@ -53,7 +53,7 @@ export default {
         this.$message.error('只支持上传.xlsx, .xls, .csv后缀的文件')
         return false
       }
-      this.upload(rawFile)
+      this.upload(rawFile);
       e.stopPropagation()
       e.preventDefault()
     },
