@@ -45,6 +45,16 @@
             <el-menu-item index="单选题列表" route="bankSingleChoiceQue">单选题列表</el-menu-item>
             <el-menu-item index="上传单选题信息" route="bankSingleChoiceQueUpload">上传单选题信息</el-menu-item>
           </el-submenu>
+          <el-submenu index="双选题管理" style="background-color: #263238" >
+            <template slot="title">
+              <p style="color:#ffffff;font-size: 14px; ">
+                <i class="icon-xinwen" style="width: 18px;height: 18px"></i>
+                <!--              <img src="../../assets/basic_msg.png" style="width: 16px;height: 16px"/>-->
+                &nbsp;&nbsp;双选题管理</p>
+            </template>
+            <el-menu-item index="双选题列表" route="bankMultipleChoiceQue">双选题列表</el-menu-item>
+            <el-menu-item index="上传双选题信息" route="bankMultipleChoiceQueUpload">上传双选题信息</el-menu-item>
+          </el-submenu>
         </el-submenu>
 
 <!--        <el-submenu index="老人管理" style="background-color: #42485b" >-->

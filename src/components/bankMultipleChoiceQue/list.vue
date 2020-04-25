@@ -1,11 +1,11 @@
-<!--20-4-14单选题列表---Vanilla-->
+<!--20-4-24双选题列表---Vanilla-->
 <template>
   <div>
     <div style="margin-top: 15px;margin-bottom: 10px">
       <el-row>
         <el-col :span="2"><el-button style="background-color: #5fb381;color: #fff" @click="add">添加</el-button></el-col>
         <el-col :span="7">
-          <el-input placeholder="请输入题目" v-model="search.singleContent" class="input-with-select" style="width: 200px">
+          <el-input placeholder="请输入题目" v-model="search.multipleContent" class="input-with-select" style="width: 200px">
             <el-button slot="append" icon="el-icon-search" @click="findData"></el-button>
           </el-input>
         </el-col>
@@ -21,17 +21,12 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="singleContent"
+        prop="multipleContent"
         label="题目">
       </el-table-column>
       <el-table-column
-        prop="singeType"
+        prop="multipleType"
         label="所属类型">
-      </el-table-column>
-      <el-table-column
-        prop="queType"
-        label="题目类型"
-      :formatter="queTypeFormatter">
       </el-table-column>
       <el-table-column
         prop="createDate"
@@ -61,21 +56,21 @@
 </template>
 
 <script>
-  import EditBankSingleChoiceQue from '@/components/bankSingleChoiceQue/edit'
-  // import DetailsBankSingleChoiceQue from '@/components/bankSingleChoiceQue/details'
+  import EditBankMultipleChoiceQue from '@/components/bankMultipleChoiceQue/edit'
+  // import DetailsBankMultipleChoiceQue from '@/components/bankMultipleChoiceQue/details'
   export default {
     inject:['reload'],
-    name:"bankSingleChoiceQue",
+    name:"bankMultipleChoiceQue",
 
     data () {
       return {
         search:{
-          singleContent:""
+          multipleContent:""
         },
         queryParams:{
           pageNo:1,
           pageSize:10,
-          singleContent:""
+          multipleContent:""
         },
         tableData:{},
       }
@@ -94,22 +89,13 @@
     mounted(){},
     methods:{
       getData(){
-        this.get("bankSingleChoiceQue/list",(res)=>{
+        this.get("bankMultipleChoiceQue/list",(res)=>{
           this.tableData=res.data;
           console.log(this.tableData);
         },this.queryParams);
 
       },
-      queTypeFormatter(row, column, cellValue, index){
-       if(cellValue ===0){
-         return "单选"
-       }else if (cellValue===1) {
-         return "多选"
-       }else {
-         return "判断"
-       }
 
-      },
       changePageNo(i){
         this.queryParams.pageNo=i;
       },
@@ -120,7 +106,7 @@
       add(){
         this.$layer.iframe({
           content: {
-            content: EditBankSingleChoiceQue, //传递的组件对象
+            content: EditBankMultipleChoiceQue, //传递的组件对象
             parent: this,//当前的vue对象
             data:{}//props
           },
@@ -134,7 +120,7 @@
         this.$layer.iframe({
           type:2,
           content: {
-            content: EditBankSingleChoiceQue, //传递的组件对象
+            content: EditBankMultipleChoiceQue, //传递的组件对象
             parent: this,//当前的vue对象
             data:{id:row.id}//props
           },
@@ -148,7 +134,7 @@
       // details(row){
       //   this.$layer.iframe({
       //     content: {
-      //       content: DetailsBankSingleChoiceQue, //传递的组件对象
+      //       content: DetailsBankMultipleChoiceQue, //传递的组件对象
       //       parent: this,//当前的vue对象
       //       data:{id:row.id}//props
       //     },
@@ -159,7 +145,7 @@
       //   });
       // },
       del(row){
-        this.delete("bankSingleChoiceQue/del",row.id,row.active);
+        this.delete("bankMultipleChoiceQue/del",row.id,row.active);
       },
       deltext(active){
         return active==1?"删除":"恢复"

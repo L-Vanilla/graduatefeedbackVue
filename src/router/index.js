@@ -7,6 +7,8 @@ import Student from '@/components/student/list'//学生列表x
 import StudentinfoUpload from '@/components/student/infoUpload'//学生信息导入
 import BankSingleChoiceQue from '@/components/bankSingleChoiceQue/list'//单选题列表
 import BankSingleChoiceQueUpload from '@/components/bankSingleChoiceQue/infoUpload'//单选题信息导入
+import BankMultipleChoiceQue from '@/components/bankMultipleChoiceQue/list'//双选题列表
+import BankMultipleChoiceQueUpload from '@/components/bankMultipleChoiceQue/infoUpload'//双选题信息导入
 /*------------------------------------------------------------------------*/
 
 /*统计*/
@@ -42,6 +44,15 @@ const router = new Router({
           path:'/bankSingleChoiceQueUpload',/*单选题导入*/
           name:'bankSingleChoiceQueUpload',
           component:BankSingleChoiceQueUpload
+        },{
+          path:'/bankMultipleChoiceQue',/*双选题列表*/
+          name:'bankMultipleChoiceQue',
+          component:BankMultipleChoiceQue
+        },
+        {
+          path:'/bankMultipleChoiceQueUpload',/*双选题导入*/
+          name:'bankMultipleChoiceQueUpload',
+          component:BankMultipleChoiceQueUpload
         },
       ]
     },
