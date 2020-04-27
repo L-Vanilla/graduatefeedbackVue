@@ -1,14 +1,14 @@
-<!--20-4-14单选题列表---Vanilla-->
+<!--20-4-25试卷列表---Vanilla-->
 <template>
   <div>
     <div style="margin-top: 15px;margin-bottom: 10px">
       <el-row>
         <el-col :span="2"><el-button style="background-color: #5fb381;color: #fff" @click="add">添加</el-button></el-col>
-        <el-col :span="7">
-          <el-input placeholder="请输入题目" v-model="search.singleContent" class="input-with-select" style="width: 200px">
-            <el-button slot="append" icon="el-icon-search" @click="findData"></el-button>
-          </el-input>
-        </el-col>
+<!--        <el-col :span="22">-->
+<!--          <el-input placeholder="请输入标题" v-model="search.title" class="input-with-select" style="width: 200px">-->
+<!--            <el-button slot="append" icon="el-icon-search" @click="findData"></el-button>-->
+<!--          </el-input>-->
+<!--        </el-col>-->
       </el-row>
     </div>
     <el-table
@@ -22,24 +22,15 @@
       </el-table-column>
       <el-table-column
         prop="id"
-        label="编号">
-      </el-table-column>
-      <el-table-column
-        prop="singleContent"
-        label="题目">
-      </el-table-column>
-      <el-table-column
-        prop="singeType"
-        label="所属类型">
+        label="条目编号">
       </el-table-column>
       <el-table-column
         prop="queType"
-        label="题目类型"
-      :formatter="queTypeFormatter">
+        label="题目类型">
       </el-table-column>
       <el-table-column
-        prop="createDate"
-        label="添加时间">
+        prop="queId"
+        label="题目id">
       </el-table-column>
 <!--      <el-table-column label="查看内容">-->
 <!--        <template slot-scope="scope">-->
@@ -65,23 +56,22 @@
 </template>
 
 <script>
-  import EditBankSingleChoiceQue from '@/components/bankSingleChoiceQue/edit'
-  // import DetailsBankSingleChoiceQue from '@/components/bankSingleChoiceQue/details'
+  import EditPaperQue from '@/components/paperQue/edit'
+  // import DetailsPaperQue from '@/components/paperQue/details'
   export default {
     inject:['reload'],
-    name:"bankSingleChoiceQue",
-
+    name:"paperQue",
     data () {
       return {
         search:{
-          singleContent:""
+          // title:""
         },
         queryParams:{
           pageNo:1,
           pageSize:10,
-          singleContent:""
+          // title:""
         },
-        tableData:{},
+        tableData:{}
       }
     },
     created(){
@@ -98,21 +88,10 @@
     mounted(){},
     methods:{
       getData(){
-        this.get("bankSingleChoiceQue/list",(res)=>{
+        this.get("paperQue/list",(res)=>{
           this.tableData=res.data;
-          console.log(this.tableData);
+          console.log(res.msg);
         },this.queryParams);
-
-      },
-      queTypeFormatter(row, column, cellValue, index){
-       if(cellValue ===0){
-         return "单选"
-       }else if (cellValue===1) {
-         return "多选"
-       }else {
-         return "判断"
-       }
-
       },
       changePageNo(i){
         this.queryParams.pageNo=i;
@@ -124,12 +103,12 @@
       add(){
         this.$layer.iframe({
           content: {
-            content: EditBankSingleChoiceQue, //传递的组件对象
+            content: EditPaperQue, //传递的组件对象
             parent: this,//当前的vue对象
             data:{}//props
           },
           area:['800px','600px'],
-          title: '添加题目信息',
+          title: '添加',
           shadeClose: false,
           shade :true
         });
@@ -138,21 +117,20 @@
         this.$layer.iframe({
           type:2,
           content: {
-            content: EditBankSingleChoiceQue, //传递的组件对象
+            content: EditPaperQue, //传递的组件对象
             parent: this,//当前的vue对象
             data:{id:row.id}//props
           },
           area:['800px','600px'],
-          title: '修改题目信息',
+          title: '修改',
           shadeClose: false,
           shade :true
         });
       },
-
       // details(row){
       //   this.$layer.iframe({
       //     content: {
-      //       content: DetailsBankSingleChoiceQue, //传递的组件对象
+      //       content: DetailsPaperQue, //传递的组件对象
       //       parent: this,//当前的vue对象
       //       data:{id:row.id}//props
       //     },
@@ -163,7 +141,7 @@
       //   });
       // },
       del(row){
-        this.delete("bankSingleChoiceQue/del",row.id,row.active);
+        this.delete("paperQue/del",row.id,row.active);
       },
       deltext(active){
         return active==1?"删除":"恢复"

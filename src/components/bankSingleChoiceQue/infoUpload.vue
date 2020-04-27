@@ -111,6 +111,7 @@ export default {
         });
         bankSingleChoiceQueList.push(bankSingleChoiceQue)
       });
+      console.log("bankSingleChoiceQueList"+bankSingleChoiceQueList);
       this.insertBankSingleChoiceQueInfoList(bankSingleChoiceQueList)
     },
     // 插入数据库学生信息表

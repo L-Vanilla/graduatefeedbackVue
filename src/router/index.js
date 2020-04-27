@@ -8,8 +8,12 @@ import StudentinfoUpload from '@/components/student/infoUpload'//学生信息导
 import BankSingleChoiceQue from '@/components/bankSingleChoiceQue/list'//单选题列表
 import BankSingleChoiceQueUpload from '@/components/bankSingleChoiceQue/infoUpload'//单选题信息导入
 import BankMultipleChoiceQue from '@/components/bankMultipleChoiceQue/list'//双选题列表
-import BankMultipleChoiceQueUpload from '@/components/bankMultipleChoiceQue/infoUpload'//双选题信息导入
+// import BankMultipleChoiceQueUpload from '@/components/bankMultipleChoiceQue/infoUpload'//双选题信息导入
 /*------------------------------------------------------------------------*/
+import Paper from '@/components/paper/list'//试卷列表
+import PaperAdd from '@/components/paper/add'//试卷列表
+import PaperQue from '@/components/paperQue/list'//试卷列表
+
 
 /*统计*/
 Vue.use(Router);
@@ -49,10 +53,23 @@ const router = new Router({
           name:'bankMultipleChoiceQue',
           component:BankMultipleChoiceQue
         },
+        // {
+        //   path:'/bankMultipleChoiceQueUpload',/*双选题导入*/
+        //   name:'bankMultipleChoiceQueUpload',
+        //   component:BankMultipleChoiceQueUpload
+        // },
         {
-          path:'/bankMultipleChoiceQueUpload',/*双选题导入*/
-          name:'bankMultipleChoiceQueUpload',
-          component:BankMultipleChoiceQueUpload
+          path:'/paper',/*试卷列表*/
+          name:'paper',
+          component:Paper
+        },{
+          path:'/paperAdd',/*添加试卷*/
+          name:'paperAdd',
+          component:PaperAdd
+        },{
+          path:'/paperQue',/*试卷条目列表*/
+          name:'paperQue',
+          component:PaperQue
         },
       ]
     },
