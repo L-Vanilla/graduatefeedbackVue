@@ -109,8 +109,18 @@
          return "单选"
        }else if (cellValue===1) {
          return "多选"
+       }else if (cellValue===2) {
+         return "填空"
+       }else if (cellValue===3) {
+         return "评分"
+       }else if (cellValue===4) {
+         return "姓名"
+       }else if (cellValue===5) {
+         return "专业"
+       }else if (cellValue===6) {
+         return "毕业年份"
        }else {
-         return "判断"
+         return "其他"
        }
 
       },

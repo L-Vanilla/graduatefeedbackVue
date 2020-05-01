@@ -25,6 +25,10 @@
         label="条目编号">
       </el-table-column>
       <el-table-column
+        prop="paperId"
+        label="试卷编号">
+      </el-table-column>
+      <el-table-column
         prop="queType"
         label="题目类型">
       </el-table-column>

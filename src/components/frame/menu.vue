@@ -12,7 +12,7 @@
         <el-submenu index="教师管理" style="background-color: #42485b" >
           <template slot="title">
             <p style="color:#ffffff;font-size: 14px; ">
-              <i class="icon-xinwen" style="width: 18px;height: 18px"></i>
+              <i class="icon-jiaoshi" style="width: 18px;height: 18px"></i>
 <!--              <img src="../../assets/basic_msg.png" style="width: 16px;height: 16px"/>-->
               &nbsp;&nbsp;教师管理</p>
           </template>
@@ -21,7 +21,7 @@
         <el-submenu index="学生管理" style="background-color: #42485b" >
           <template slot="title">
             <p style="color:#ffffff;font-size: 14px; ">
-              <i class="icon-xinwen" style="width: 18px;height: 18px"></i>
+              <i class="icon-xueshengguanli" style="width: 18px;height: 18px"></i>
 <!--              <img src="../../assets/basic_msg.png" style="width: 16px;height: 16px"/>-->
               &nbsp;&nbsp;学生管理</p>
           </template>
@@ -31,7 +31,7 @@
         <el-submenu index="指标管理" style="background-color: #42485b" >
           <template slot="title">
             <p style="color:#ffffff;font-size: 14px; ">
-              <i class="icon-xinwen" style="width: 18px;height: 18px"></i>
+              <i class="icon-tiku" style="width: 18px;height: 18px"></i>
 <!--              <img src="../../assets/basic_msg.png" style="width: 16px;height: 16px"/>-->
               &nbsp;&nbsp;指标管理</p>
           </template>
@@ -59,7 +59,7 @@
         <el-submenu index="试卷管理" style="background-color: #42485b" >
           <template slot="title">
             <p style="color:#ffffff;font-size: 14px; ">
-              <i class="icon-xinwen" style="width: 18px;height: 18px"></i>
+              <i class="icon-wenjuan" style="width: 18px;height: 18px"></i>
               <!--              <img src="../../assets/basic_msg.png" style="width: 16px;height: 16px"/>-->
               &nbsp;&nbsp;试卷管理</p>
           </template>
