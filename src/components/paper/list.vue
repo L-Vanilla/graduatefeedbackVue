@@ -1,15 +1,16 @@
 <!--20-4-25试卷列表---Vanilla-->
 <template>
   <div>
-    <div style="margin-top: 15px;margin-bottom: 10px">
+    <div style="text-align: center">
       <el-row>
         <el-col :span="2"><el-button style="background-color: #5fb381;color: #fff" @click="add">添加</el-button></el-col>
-        <el-col :span="22">
+        <el-col :span="6">
           <el-input placeholder="请输入标题" v-model="search.title" class="input-with-select" style="width: 200px">
             <el-button slot="append" icon="el-icon-search" @click="findData"></el-button>
           </el-input>
         </el-col>
       </el-row>
+      <br>
     </div>
     <el-table
       :data="tableData.list"
@@ -28,13 +29,17 @@
         prop="title"
         label="试卷标题">
       </el-table-column>
-      <el-table-column
-        prop="content"
-        label="试卷内容">
-      </el-table-column>
+<!--      <el-table-column-->
+<!--        prop="content"-->
+<!--        label="试卷内容">-->
+<!--      </el-table-column>-->
       <el-table-column
         prop="remarks"
         label="试卷说明">
+      </el-table-column>
+      <el-table-column
+        prop="paperType"
+        label="试卷类型">
       </el-table-column>
       <el-table-column
         prop="provideNumber"
@@ -59,6 +64,16 @@
           <el-button type="text" size="small" style="color:red" @click="del(scope.row)"  icon="el-icon-delete">{{deltext(scope.row.active)}}</el-button>
         </template>
       </el-table-column>
+      <el-table-column label="查看详情">
+        <template slot-scope="scope">
+          <el-button @click="details(scope.row)" style="color:#17B3A3" type="text" size="small" icon="el-icon-edit">查看详情</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="发布分卷">
+        <template slot-scope="scope">
+          <el-button @click="publish(scope.row)" style="color:#17B3A3" type="text" size="small" icon="el-icon-edit">发布试卷</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       background
@@ -73,7 +88,7 @@
 
 <script>
   import EditPaper from '@/components/paper/edit'
-  // import DetailsPaper from '@/components/paper/details'
+  import PublishPaper from '@/components/paper/publish'
   export default {
     inject:['reload'],
     name:"paper",
@@ -146,19 +161,25 @@
           shade :true
         });
       },
-      // details(row){
-      //   this.$layer.iframe({
-      //     content: {
-      //       content: DetailsPaper, //传递的组件对象
-      //       parent: this,//当前的vue对象
-      //       data:{id:row.id}//props
-      //     },
-      //     area:['800px','600px'],
-      //     title: '查看内容',
-      //     shadeClose: false,
-      //     shade :true
-      //   });
-      // },
+      details(row){
+        // window.open("paperDetails/" + row.id+"/"+ row.title+"/"+ row.content+"/"+ row.remarks);
+        // window.open("paperDetails/" + row.id);
+        window.open("paperDetails/" + row.id);
+      },
+      publish(row){
+        this.$layer.iframe({
+          type:2,
+          content: {
+            content: PublishPaper, //传递的组件对象
+            parent: this,//当前的vue对象
+            data:{id:row.id}//props
+          },
+          area:['900px','600px'],
+          title: '发放问卷',
+          shadeClose: false,
+          shade :true
+        });
+      },
       del(row){
         this.delete("paper/del",row.id,row.active);
       },

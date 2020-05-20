@@ -36,6 +36,10 @@
         prop="queId"
         label="题目id">
       </el-table-column>
+      <el-table-column
+        prop="queNum"
+        label="题目id">
+      </el-table-column>
 <!--      <el-table-column label="查看内容">-->
 <!--        <template slot-scope="scope">-->
 <!--          <el-button @click="details(scope.row)" style="color:#17B3A3" type="text" size="small" icon="el-icon-document">查看内容</el-button>-->

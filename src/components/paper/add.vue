@@ -1,4 +1,4 @@
-
+<!--添加问卷-->
 <template>
   <div>
 
@@ -13,12 +13,13 @@
               <el-form-item  prop="title" >
                 <input class="InputTitle" type="text"  v-model="modelForm.title"   placeholder="请输入标题" ></input>
               </el-form-item>
-              <el-form-item  prop="content" >
+              <el-form-item  prop="content">
 <!--                <quill-editor v-model="modelForm.content" ref="myQuillEditor" style="height: 400px;" :options="editorOption">-->
 <!--                </quill-editor>-->
                 <textarea
                   class="el-textarea__content"
                   placeholder="请输入内容"
+                  :max="5"
                   v-model="modelForm.content" >
                 </textarea>
               </el-form-item>
@@ -31,7 +32,14 @@
                     <input class="InputRemarks" v-model="modelForm.remarks"   placeholder="请输入说明" ></input>
                   </el-col>
                 </el-row>
-
+              </el-form-item>
+              <el-form-item prop="paperType" style="margin-left: 50px" label="试卷类型" >
+                <el-radio-group v-model="modelForm.paperType">
+                  <el-radio label="毕业要求">毕业要求</el-radio>
+                  <el-radio label="课程体系">课程体系</el-radio>
+                  <el-radio label="培养目标">培养目标</el-radio>
+                  <el-radio label="实习实训">实习实训</el-radio>
+                </el-radio-group>
               </el-form-item>
               <el-divider></el-divider>
               <vuedraggable v-model="modelForm.topic" class="wrapper" @end="end" >
@@ -273,9 +281,7 @@
                   </div>
                 </div>
               </vuedraggable>
-
-              <el-form-item>
-                <el-button @click="addQuestion">新增题目</el-button>
+              <el-form-item style="text-align: center">
                 <el-button style="margin-top: 10px" @click="addSubmit(modelForm)">提交</el-button>
                 <el-button @click="resetForm('modelForm')">重置</el-button>
               </el-form-item>
@@ -379,6 +385,7 @@
           title:"",
           content:"",
           remarks:"",
+          paperType:"",
           topic: [{
             singleContent:"",
             queType: 0,
@@ -522,7 +529,13 @@
         modelForm.topic.forEach((item, index) => {
           const bankSingleChoiceQue = {};
                     bankSingleChoiceQue.singleContent = item.singleContent;
+
                     bankSingleChoiceQue.queType = item.queType;
+                    /*题目所属类型
+                    * 毕业要求
+                    * 课程体系
+                    * 实习实训
+                    * */
                     if(item.choices.length===1){
                       bankSingleChoiceQue.choiceA=item.choices[0].value;
                     }
@@ -577,6 +590,7 @@
         paper.title=modelForm.title;
         paper.content=modelForm.content;
         paper.remarks=modelForm.remarks;
+        paper.paperType=modelForm.paperType;
         paper.bankSingleChoiceQueList=bankSingleChoiceQueList;
         console.log("paper"+paper);
               this.insertBankSingleChoiceQueInfoList(paper)
@@ -641,6 +655,7 @@
     width: 70%;
   }
   .left{
+    position: relative;
     display: inline-block;
     float: left;
     background-color:#FFFFFF;

@@ -31,7 +31,6 @@
             title:"",
             content:"",
             remarks:"",
-
           },
 
           rules: {

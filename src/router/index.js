@@ -13,6 +13,8 @@ import BankMultipleChoiceQue from '@/components/bankMultipleChoiceQue/list'//双
 import Paper from '@/components/paper/list'//试卷列表
 import PaperAdd from '@/components/paper/add'//试卷列表
 import PaperQue from '@/components/paperQue/list'//试卷列表
+import PaperDetails from '@/components/paper/details'//试卷预览列表
+import PaperAnswer from '@/components/paper/paperAnswer'//试卷预览列表
 
 
 /*统计*/
@@ -72,6 +74,17 @@ const router = new Router({
           component:PaperQue
         },
       ]
+    },
+    {
+      // path:'/paperDetails/:id/:title/:content/:remarks',/*试卷预览*/
+      path:'/paperDetails/:id',/*试卷预览*/
+      name:'paperDetails',
+      component:PaperDetails
+    }, {
+      // path:'/paperDetails/:id/:title/:content/:remarks',/*试卷预览*/
+      path:'/paperAnswer/:id/:longId',/*试卷预览*/
+      name:'paperAnswer',
+      component:PaperAnswer
     },
 
   ]

@@ -37,7 +37,7 @@
           <el-radio-group v-model="ruleForm.queType">
             <el-radio  :label="0">单选</el-radio>
             <el-radio :label="1">多选</el-radio>
-            <el-radio :label="2">判断</el-radio>
+            <el-radio :label="2">填空</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item >

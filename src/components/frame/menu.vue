@@ -35,16 +35,7 @@
 <!--              <img src="../../assets/basic_msg.png" style="width: 16px;height: 16px"/>-->
               &nbsp;&nbsp;指标管理</p>
           </template>
-          <el-submenu index="单选题管理" style="background-color: #263238" >
-            <template slot="title">
-              <p style="color:#ffffff;font-size: 14px; ">
-                <i class="icon-xinwen" style="width: 18px;height: 18px"></i>
-                <!--              <img src="../../assets/basic_msg.png" style="width: 16px;height: 16px"/>-->
-                &nbsp;&nbsp;单选题管理</p>
-            </template>
-            <el-menu-item index="单选题列表" route="bankSingleChoiceQue">单选题列表</el-menu-item>
-            <el-menu-item index="上传单选题信息" route="bankSingleChoiceQueUpload">上传单选题信息</el-menu-item>
-          </el-submenu>
+          <el-menu-item index="题库列表" route="bankSingleChoiceQue">题库列表</el-menu-item>
 <!--          <el-submenu index="双选题管理" style="background-color: #263238" >-->
 <!--            <template slot="title">-->
 <!--              <p style="color:#ffffff;font-size: 14px; ">-->
@@ -67,16 +58,16 @@
           <el-menu-item index="添加试卷" route="paperAdd">添加试卷</el-menu-item>
 <!--          <el-menu-item index="上传学生信息" route="studentinfoUpload">上传学生信息</el-menu-item>-->
         </el-submenu>
-        <el-submenu index="试卷条目管理" style="background-color: #42485b" >
-          <template slot="title">
-            <p style="color:#ffffff;font-size: 14px; ">
-              <i class="icon-xinwen" style="width: 18px;height: 18px"></i>
-              <!--              <img src="../../assets/basic_msg.png" style="width: 16px;height: 16px"/>-->
-              &nbsp;&nbsp;试卷条目管理</p>
-          </template>
-          <el-menu-item index="试卷条目管理" route="paperQue">试卷条目管理</el-menu-item>
-<!--          <el-menu-item index="上传学生信息" route="studentinfoUpload">上传学生信息</el-menu-item>-->
-        </el-submenu>
+<!--        <el-submenu index="试卷条目管理" style="background-color: #42485b" >-->
+<!--          <template slot="title">-->
+<!--            <p style="color:#ffffff;font-size: 14px; ">-->
+<!--              <i class="icon-xinwen" style="width: 18px;height: 18px"></i>-->
+<!--              &lt;!&ndash;              <img src="../../assets/basic_msg.png" style="width: 16px;height: 16px"/>&ndash;&gt;-->
+<!--              &nbsp;&nbsp;试卷条目管理</p>-->
+<!--          </template>-->
+<!--          <el-menu-item index="试卷条目管理" route="paperQue">试卷条目管理</el-menu-item>-->
+<!--&lt;!&ndash;          <el-menu-item index="上传学生信息" route="studentinfoUpload">上传学生信息</el-menu-item>&ndash;&gt;-->
+<!--        </el-submenu>-->
 <!--        <el-submenu index="老人管理" style="background-color: #42485b" >-->
 <!--          <template slot="title">-->
 <!--            <p style="color:#ffffff;font-size: 14px; ">-->

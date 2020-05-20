@@ -4,23 +4,44 @@
     <div style="margin-top: 15px;margin-bottom: 10px">
       <el-row>
         <el-col :span="2"><el-button style="background-color: #5fb381;color: #fff" @click="add">添加</el-button></el-col>
-        <el-col :span="7">
-          <el-input placeholder="请输入姓名" v-model="search.name" class="input-with-select" style="width: 200px">
-            <el-button slot="append" icon="el-icon-search" @click="findData"></el-button>
+        <el-col :span="3.5">
+          学院：
+          <el-input placeholder="请输入学院" v-model="search.college" class="input-with-select" style="width: 110px">
           </el-input>
         </el-col>
+        <el-col :span="3.5">
+          专业：
+          <el-input placeholder="请输入专业" v-model="search.specialty" class="input-with-select" style="width: 110px">
+          </el-input>
+        </el-col>
+        <el-col :span="3.5">
+          班级：
+          <el-input placeholder="请输入班级" v-model="search.grade" class="input-with-select" style="width: 110px">
+          </el-input>
+        </el-col>
+        <el-col :span="3.5">
+          姓名：
+          <el-input placeholder="请输入姓名" v-model="search.name" class="input-with-select" style="width: 120px">
+          </el-input>
+        </el-col>
+        <el-col :span="2">
+            <el-button icon="el-icon-search" type="primary" style="background-color: #5fb381" @click="findData"></el-button>
+        </el-col>
         <!--导出excel---当前页面-   ----------0-->
-        <el-col :span="7">
-          <el-button v-waves :loading="downloadLoading" style="margin-left: 0;margin-right: 10px;" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
+        <el-col :span="3.5">
+          <el-button v-waves :loading="downloadLoading" style="margin-left: 0;margin-right: 10px;background-color: #5fb381" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
             导出当前页学生信息
           </el-button>
         </el-col>
         <!--导出全部学生-->
-        <el-col :span="7">
-        <el-button v-waves :loading="downloadLoading" style="margin-left: 0;" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownloadAll">
-          导出全部学生信息
-        </el-button>
+        <el-col :span="3">
+          <el-button v-waves :loading="downloadLoading" style="margin-left: 0;background-color: #5fb381" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownloadAll">
+            导出全部学生信息
+          </el-button>
         </el-col>
+      </el-row>
+      <br>
+      <el-row>
 
         <!-----------------------1-->
       </el-row>
@@ -116,12 +137,18 @@
         downloadLoading: false,
         /*---------*/
         search:{
-          name:""
+          name:"",
+          college:"",
+          specialty:"",
+          grade:"",
         },
         queryParams:{
           pageNo:1,
           pageSize:10,
-          name:""
+          name:"",
+          college:"",
+          specialty:"",
+          grade:"",
         },
         tableData:{},
         students:{}
