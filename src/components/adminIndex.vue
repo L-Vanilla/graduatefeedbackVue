@@ -4,7 +4,8 @@
     <el-header class="header" style=" display: inline-block;">
       <el-row>
         <el-col :span="1" style="float: left">
-          <img src="../assets/hotel.png" style="text-align:center;width: 30px;height: 30px;float: left;margin-top: 10px"/>
+          <i class="icon-xuesheng" style="font-size: 30px;color: #d6d6d6"></i>
+<!--          <img src="../assets/hotel.png" style="text-align:center;width: 30px;height: 30px;float: left;margin-top: 10px"/>-->
         </el-col>
         <el-col :span="22" style="float: left">
           <h1  class="title" style="color: #FFFFFF;float: left">毕业生跟踪及反馈系统</h1>
