@@ -1,9 +1,9 @@
 <!--系统管理员登录--Vanilla-->
 <template>
+  <div>
   <div class="main">
-
+<!--    <input v-model="loginForm.id"></input>-->
     <form class="form">
-
       <div class="form__cover"></div>
       <div class="form__loader">
         <div class="spinner active">
@@ -12,17 +12,16 @@
           </svg>
         </div>
       </div>
-
       <div class="form__content">
         <el-row>
           <el-col :span="12">
-            <el-button type="text" style="float: left; font-size: 15px;color:#d9eeff "  icon="el-icon-back" size="medium" @click="home()">去首页</el-button>
+<!--            <el-button type="text" style="float: left; font-size: 15px;color:#d9eeff "  icon="el-icon-back" size="medium" @click="home()">去首页</el-button>-->
           </el-col>
         </el-row>
-        <h2 style="color: #d9eeff">老人健康管理与跟踪系统</h2>
-        <h2 style="color: #d9eeff">后台登录</h2>
+        <h2 style="color: #d9eeff">毕业生跟踪及反馈系统</h2>
+        <br>
         <div class="styled-input">
-          <input type="text" class="styled-input__input" v-model="loginForm.name" placeholder="请输入账号" required></input>
+          <input type="text" class="styled-input__input" v-model="loginForm.id" placeholder="请输入账号" required></input>
           <!--<div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">Username</span> </div>-->
           <!--<div class="styled-input__circle"></div>-->
         </div>
@@ -32,10 +31,13 @@
           <!--<div class="styled-input__circle"></div>-->
         </div>
         <button type="button" class="styled-button" style="background-color: #8fb3b4;color: #d9eeff" @click="adminLogin()"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">登录</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">登录</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">登录</span> </span> </span> </span> </button>
-        <h5 style="color:#d9eeff;">开发人员：刘香草</h5>
+        <h5 style="color:#d9eeff;font-size: 5px">开发人员：河北工程大学计算机专业刘香草</h5>
+<!--        <h5 style="color:#d9eeff;"></h5>-->
       </div>
     </form>
   </div>
+  </div>
+
 </template>
 <script>
   import API from '../assets/login.js';
@@ -44,14 +46,14 @@
     data() {
       return {
         loginForm: {
-          name: '',
+          id: '',
           password: ''
         },
         admin: {},
         islogin:"",
         rules: {
-          name: [
-            { required: true, message: '请输入用户名称', trigger: 'blur' },
+          id: [
+            { required: true, message: '请职工编号', trigger: 'blur' },
             { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
           ],
           password: [
@@ -89,17 +91,16 @@
           this.admin = list;
           this.$router.push('/adminIndex');
         }
-
         console.log(this.admin);
       },
       ...mapMutations(['changeLogin']),
       adminLogin() {
-        if (this.loginForm.name === '' || this.loginForm.password === '') {
+        if (this.loginForm.id === '' || this.loginForm.password === '') {
           alert('账号或密码不能为空');
         } else {
           console.log(this.loginForm);
           var params = new URLSearchParams();
-          params.append('name', this.loginForm.name);
+          params.append('id', this.loginForm.id);
           params.append('password', this.loginForm.password);
           this.axios({
             method: 'post',
@@ -107,17 +108,11 @@
             data: params
           }).then(res => {
             this.admin = res.data;
+            localStorage.setItem('admin', JSON.stringify(res.data));
+            localStorage.setItem('islogin', '1');
+            alert('登陆成功');
+            this.$router.push('/adminIndex');
             // console.log(res.data);
-            if (res.data.name === this.loginForm.name) {
-              // console.log(res.data);
-              this.$router.push('/adminIndex');
-              localStorage.setItem('admin', JSON.stringify(res.data));
-              localStorage.setItem('islogin', '1');
-              alert('登陆成功');
-
-            } else {
-              alert('账号不存在');
-            }
           }).catch(error => {
             alert('账号或密码错误');
             // console.log(error);
@@ -125,7 +120,7 @@
         }
       },
       home(){
-        this.$router.push('/');
+        this.$router.push('/adminLogin');
       }
     }
   };

@@ -144,7 +144,7 @@
             data:{}//props
           },
           area:['800px','600px'],
-          title: '添加管理员',
+          title: '添加教师信息',
           shadeClose: false,
           shade :true
         });
@@ -158,24 +158,12 @@
             data:{id:row.id}//props
           },
           area:['800px','600px'],
-          title: '修改管理员',
+          title: '修改教师信息',
           shadeClose: false,
           shade :true
         });
       },
-      // details(row){
-      //   this.$layer.iframe({
-      //     content: {
-      //       content: DetailsAdmin, //传递的组件对象
-      //       parent: this,//当前的vue对象
-      //       data:{id:row.id}//props
-      //     },
-      //     area:['800px','600px'],
-      //     title: '查看内容',
-      //     shadeClose: false,
-      //     shade :true
-      //   });
-      // },
+
       del(row){
         this.delete("admin/del",row.id,row.active);
       },

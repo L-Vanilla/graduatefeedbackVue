@@ -1,6 +1,6 @@
 <!--20-4-12学生列表---Vanilla-->
 <template>
-  <div>
+  <div style="margin-left: 30px; ">
     <div  style="margin-top: 15px;">
       <el-row>
         <el-col :span="3.5">
@@ -34,26 +34,22 @@
       </el-row>
     </div>
     <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+    <br><br>
     <el-checkbox-group v-model="formdata.checkedtableData" >
-      <el-checkbox v-for="item in tableData.list" :key="item.id" :label="item" >
-        {{item.specialty}}&nbsp;
-        {{item.name}}
-        {{item.mail}}
-      </el-checkbox>
+<!--        <el-col :span="8">-->
+          <el-checkbox v-for="item in tableData.list" :key="item.id" :label="item" style="width: 300px">
+            {{item.specialty}}&nbsp;
+            {{item.name}}
+            {{item.mail}}
+          </el-checkbox>
+<!--        </el-col>-->
     </el-checkbox-group>
+    <br>
     <el-form :inline="true" :model="formdata" class="demo-form-inline">
-      <el-form-item>
+      <el-form-item style="text-align: center">
         <el-button type="primary" @click="addSubmit(formdata)">发送</el-button>
       </el-form-item>
     </el-form>
-<!--    <el-pagination-->
-<!--      background-->
-<!--      layout="prev, pager, next,total"-->
-<!--      :total="tableData.total"-->
-<!--      :current-page="this.queryParams.pageNo"-->
-<!--      :page-size="this.queryParams.pageSize"-->
-<!--      @current-change="changePageNo">-->
-<!--    </el-pagination>-->
   </div>
 </template>
 
@@ -80,7 +76,7 @@
         },
         queryParams:{
           pageNo:1,
-          pageSize:50,
+          pageSize:80,
           name:"",
           college:"",
           specialty:"",
@@ -111,7 +107,7 @@
     methods:{
       handleCheckAllChange(value){
         this.formdata.checkedtableData = value ? this.tableData.list : [];
-        this.isIndeterminate = false;
+        this.isIndeterminate = !this.isIndeterminate;
       },
       getData(){
         this.get("student/list",(res)=>{

@@ -9,7 +9,7 @@
         text-color="#fff"
         @select="handleSelect"
         style="height:100%;">
-        <el-submenu index="教师管理" style="background-color: #42485b" >
+        <el-submenu index="教师管理" style="background-color: #42485b"  v-if="admin.role===0">
           <template slot="title">
             <p style="color:#ffffff;font-size: 14px; ">
               <i class="icon-jiaoshi" style="width: 18px;height: 18px"></i>
@@ -58,30 +58,6 @@
           <el-menu-item index="添加试卷" route="paperAdd">添加试卷</el-menu-item>
 <!--          <el-menu-item index="上传学生信息" route="studentinfoUpload">上传学生信息</el-menu-item>-->
         </el-submenu>
-<!--        <el-submenu index="试卷条目管理" style="background-color: #42485b" >-->
-<!--          <template slot="title">-->
-<!--            <p style="color:#ffffff;font-size: 14px; ">-->
-<!--              <i class="icon-xinwen" style="width: 18px;height: 18px"></i>-->
-<!--              &lt;!&ndash;              <img src="../../assets/basic_msg.png" style="width: 16px;height: 16px"/>&ndash;&gt;-->
-<!--              &nbsp;&nbsp;试卷条目管理</p>-->
-<!--          </template>-->
-<!--          <el-menu-item index="试卷条目管理" route="paperQue">试卷条目管理</el-menu-item>-->
-<!--&lt;!&ndash;          <el-menu-item index="上传学生信息" route="studentinfoUpload">上传学生信息</el-menu-item>&ndash;&gt;-->
-<!--        </el-submenu>-->
-<!--        <el-submenu index="老人管理" style="background-color: #42485b" >-->
-<!--          <template slot="title">-->
-<!--            <p style="color:#ffffff;font-size: 14px; ">-->
-<!--              <i class="icon-old"></i>-->
-<!--              &nbsp;&nbsp;老人管理</p>-->
-<!--          </template>-->
-<!--&lt;!&ndash;          <el-menu-item index="老人基本信息" route="older">老人基本信息</el-menu-item>&ndash;&gt;-->
-<!--          <el-menu-item index="老人基本信息" route="older0perate">老人基本信息</el-menu-item>-->
-<!--          <el-menu-item index="家庭成员" route="member">家庭成员</el-menu-item>-->
-<!--          <el-menu-item index="诊断信息" route="diagnosis">诊断信息</el-menu-item>-->
-<!--          <el-menu-item index="急救信息" route="aid">急救信息</el-menu-item>-->
-<!--          <el-menu-item index="体检信息" route="exam">体检信息</el-menu-item>-->
-<!--          <el-menu-item index="随访信息" route="visits">随访信息</el-menu-item>-->
-<!--        </el-submenu>-->
 
       </el-menu>
 
@@ -96,7 +72,7 @@
     name:'mymenu',
     data () {
       return {
-        // admin:[]
+        admin:[]
         // user:[]
       }
     },
@@ -106,14 +82,14 @@
         this.SET_MENU(keyPath);
       },
       //加载用户
-      // loadUser(){
-      //   var list = JSON.parse(localStorage.getItem("admin") || '[]');
-      //   this.admin = list;
-      //   console.log(this.admin);
-      // },
+      loadUser(){
+        var list = JSON.parse(localStorage.getItem("admin") || '[]');
+        this.admin = list;
+        console.log(this.admin);
+      },
     },
     created(){
-      // this.loadUser();
+      this.loadUser();
     },
     store
   }

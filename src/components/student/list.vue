@@ -172,7 +172,10 @@
           this.tableData=res.data;
           console.log(this.tableData);
         },this.queryParams);
-
+        this.get("student/getAll",(res)=>{
+          this.students=res.data;
+          console.log("导出全部学生"+this.students);
+        },this.search);
       },
       sexformat(row, column, cellValue, index){
         return cellValue==1?"女":"男";
@@ -230,10 +233,7 @@
       /*导出全部学生*/
       handleDownloadAll(){
         this.downloadLoading = true;
-        this.get("student/getAll",(res)=>{
-          this.students=res.data;
-          console.log("导出全部学生"+this.students);
-        });
+
         // let list = JSON.stringify(this.students);
         // console.log("list"+list);
         import('@/vendor/Export2Excel').then(excel => {

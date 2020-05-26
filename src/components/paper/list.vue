@@ -2,17 +2,18 @@
 <template>
   <div>
     <div style="text-align: center">
-      <el-row>
-        <el-col :span="2"><el-button style="background-color: #5fb381;color: #fff" @click="add">添加</el-button></el-col>
-        <el-col :span="6">
-          <el-input placeholder="请输入标题" v-model="search.title" class="input-with-select" style="width: 200px">
-            <el-button slot="append" icon="el-icon-search" @click="findData"></el-button>
-          </el-input>
-        </el-col>
-      </el-row>
+<!--      <el-row>-->
+<!--        <el-col :span="2"><el-button style="background-color: #5fb381;color: #fff" @click="add">添加</el-button></el-col>-->
+<!--        <el-col :span="6">-->
+<!--          <el-input placeholder="请输入标题" v-model="search.title" class="input-with-select" style="width: 200px">-->
+<!--            <el-button slot="append" icon="el-icon-search" @click="findData"></el-button>-->
+<!--          </el-input>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
       <br>
     </div>
     <el-table
+
       :data="tableData.list"
       border
       style="width: 100%;"
@@ -58,20 +59,25 @@
 <!--          <el-button @click="details(scope.row)" style="color:#17B3A3" type="text" size="small" icon="el-icon-document">查看内容</el-button>-->
 <!--        </template>-->
 <!--      </el-table-column>-->
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" style="color:#17B3A3" type="text" size="small" icon="el-icon-edit">修改</el-button>
-          <el-button type="text" size="small" style="color:red" @click="del(scope.row)"  icon="el-icon-delete">{{deltext(scope.row.active)}}</el-button>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="操作">-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-button @click="edit(scope.row)" style="color:#17B3A3" type="text" size="small" icon="el-icon-edit">修改</el-button>-->
+<!--          <el-button type="text" size="small" style="color:red" @click="del(scope.row)"  icon="el-icon-delete">{{deltext(scope.row.active)}}</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="查看详情">
         <template slot-scope="scope">
-          <el-button @click="details(scope.row)" style="color:#17B3A3" type="text" size="small" icon="el-icon-edit">查看详情</el-button>
+          <el-button @click="details(scope.row)" style="color:#17B3A3" type="text" size="small" >预览试卷</el-button>
         </template>
       </el-table-column>
       <el-table-column label="发布分卷">
         <template slot-scope="scope">
-          <el-button @click="publish(scope.row)" style="color:#17B3A3" type="text" size="small" icon="el-icon-edit">发布试卷</el-button>
+          <el-button @click="publish(scope.row)" style="color:#17B3A3" type="text" size="small">发布试卷</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="查看结果">
+        <template slot-scope="scope">
+          <el-button @click="overallClick(scope.row)" style="color:#17B3A3" type="text" size="small" >查看结果</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -121,7 +127,7 @@
       getData(){
         this.get("paper/list",(res)=>{
           this.tableData=res.data;
-          console.log(res.msg);
+          console.log(this.tableData);
         },this.queryParams);
       },
       sexformat(row, column, cellValue, index){
@@ -165,6 +171,10 @@
         // window.open("paperDetails/" + row.id+"/"+ row.title+"/"+ row.content+"/"+ row.remarks);
         // window.open("paperDetails/" + row.id);
         window.open("paperDetails/" + row.id);
+      },
+      //点击当前行传入问卷回馈页面
+      overallClick(row){
+        this.$router.push("/"+row.id);
       },
       publish(row){
         this.$layer.iframe({

@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+import AdminLogin from '@/components/adminLogin'
+
 /*后台系统管理员---------------------------------------------*/
 import AdminIndex from '@/components/adminIndex'
 import Admin from '@/components/admin/list'//管理员列表
@@ -14,7 +17,9 @@ import Paper from '@/components/paper/list'//试卷列表
 import PaperAdd from '@/components/paper/add'//试卷列表
 import PaperQue from '@/components/paperQue/list'//试卷列表
 import PaperDetails from '@/components/paper/details'//试卷预览列表
-import PaperAnswer from '@/components/paper/paperAnswer'//试卷预览列表
+import PaperAnswer from '@/components/paper/paperAnswer'//学生做试卷列表
+import SumViewList from '@/components/sumView/list'//统计试卷反馈列表
+import SumViewAnswer from '@/components/sumView/answerView'//反馈的单个试卷页面
 
 
 /*统计*/
@@ -24,11 +29,20 @@ const router = new Router({
   mode:'history',
   routes: [
     {
-      path:'/',/*系统后台*/
+      path:'/adminLogin',/*管理员*/
+      name:'adminLogin',
+      component:AdminLogin
+    },
+    {
+      path:'/adminIndex',/*系统后台*/
       name:'adminIndex',
       component:AdminIndex,
       children:[
        {
+          path:'/adminIndex',/*管理员*/
+          name:'admin',
+          component:Admin
+        },{
           path:'/admin',/*管理员*/
           name:'admin',
           component:Admin
@@ -63,7 +77,7 @@ const router = new Router({
         {
           path:'/paper',/*试卷列表*/
           name:'paper',
-          component:Paper
+          component:Paper,
         },{
           path:'/paperAdd',/*添加试卷*/
           name:'paperAdd',
@@ -73,6 +87,18 @@ const router = new Router({
           name:'paperQue',
           component:PaperQue
         },
+        {
+          // path:'/paperDetails/:id/:title/:content/:remarks',/*试卷预览*/
+          path:'/:paperId',/*反馈试卷列表*/
+          name:'SumViewList',
+          component:SumViewList
+        },
+        // {
+        //   // path:'/paperDetails/:id/:title/:content/:remarks',/*试卷预览*/
+        //   path:'/:paperId/:longId',/*反馈单个试卷页面*/
+        //   name:'sumViewAnswer',
+        //   component:SumViewAnswer
+        // },
       ]
     },
     {
@@ -82,7 +108,7 @@ const router = new Router({
       component:PaperDetails
     }, {
       // path:'/paperDetails/:id/:title/:content/:remarks',/*试卷预览*/
-      path:'/paperAnswer/:id/:longId',/*试卷预览*/
+      path:'/paperAnswer/:id/:longId',/*学生做试卷页面*/
       name:'paperAnswer',
       component:PaperAnswer
     },

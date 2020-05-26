@@ -56,7 +56,7 @@
                         </el-row>
                         <!--选项-->
                         <el-radio-group v-model="item.answer" style="margin-left: 30px;text-align: left;display: block;margin-top: 10px">
-                          <el-radio v-for="opt in item.options" :key="opt.value" :label="opt.value" v-if="opt.label!=='null'" >
+                          <el-radio v-for="opt in item.options" :label="opt.value" v-if="opt.label!=='null'" :key="opt.value">
                             {{opt.label}}&nbsp;
                           </el-radio>
                         </el-radio-group>
@@ -387,10 +387,11 @@
 <style scoped>
   /*问卷左右布局*/
   .right{
-    padding: 100px  50px;
+    padding: 0px;
     background-color: #FFFFFF;
     display: inline-block;
     width: 70%;
+    text-align: center;
   }
   .left{
     display: inline-block;

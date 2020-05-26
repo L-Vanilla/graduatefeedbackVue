@@ -529,7 +529,6 @@
         modelForm.topic.forEach((item, index) => {
           const bankSingleChoiceQue = {};
                     bankSingleChoiceQue.singleContent = item.singleContent;
-
                     bankSingleChoiceQue.queType = item.queType;
                     /*题目所属类型
                     * 毕业要求

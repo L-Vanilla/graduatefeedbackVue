@@ -1,13 +1,38 @@
-<!--问卷详情-->
+<!--20-5-10试卷列表---Vanilla-->
 <template>
   <div>
-    <el-container style="background-color: #8fb3b4">
+<!--    <el-row >-->
+<!--      <el-col :span="6" v-for="(item,index) in tableData.list" :key="item.longId">-->
+
+<!--        <el-card :body-style="{ padding: '2px' }" style="margin-right: 10px" >-->
+<!--          <div style="padding: 14px;">-->
+<!--            <span>序号：{{ parseInt(tableData.total) -(parseInt(tableData.pageNum)-1)*parseInt(tableData.size)-parseInt(index) }}</span>-->
+<!--            <br><br>-->
+<!--            <span>试卷标题：{{ item.title }}</span>-->
+<!--            <br><br>-->
+<!--            <span>创建时间：{{ item.createDate }}</span>-->
+<!--            <br><br>-->
+<!--            <button @click="toAnswerView(item)">查看详情</button>-->
+<!--          </div>-->
+<!--        </el-card>-->
+
+<!--      </el-col>-->
+<!--    </el-row>-->
+    <el-row>
+      <el-col :span="3">
+        <el-button v-waves :loading="downloadLoading" style="margin-left: 0;background-color: #5fb381" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownloadAll">
+          导出全部数据信息
+        </el-button>
+      </el-col>
+    </el-row>
+    <el-container style="">
       <!--整个问卷div-----------------0-->
-      <el-main style="text-align: center">
+      <el-main style="">
         <!--右侧问卷-----------------0-->
         <div class="right">
+          <span style="text-align: left;font-size: 28px">序号：{{ parseInt(tableData.total) -(parseInt(tableData.pageNum)-1)*parseInt(tableData.size)}}</span>
           <div>
-            <el-form ref="modelForm"  :rule="rules" :model="modelForm" label-position="right">
+            <el-form :model="modelForm" label-position="right">
               <div>
                 <input type="hidden" v-model="modelForm.paperId"/>
                 <!--标题-->
@@ -32,7 +57,7 @@
                   </el-row>
                 </el-form-item>
                 <el-divider></el-divider>
-                <vuedraggable v-model="modelForm.topic" class="wrapper" @end="end" >
+                <vuedraggable v-model="modelForm.topic" class="wrapper"  >
                   <div v-for="(item, index) in modelForm.topic" :key="index" class="wrapper">
                     <input type="hidden" v-model="item.queId"/>
                     <!--单选----0-->
@@ -46,19 +71,19 @@
                         :prop="`topic.${index}.singleContent`">
                         <!--问题-->
                         <el-row>
-                          <el-col :span="2">
+                          <el-col :span="3">
                             <span>{{item.queNum}}.(单选)</span>
                           </el-col>
-                          <el-col :span="22">
+                          <el-col :span="20">
                             <input v-model.trim="item.singleContent" class="InputProblem" clearable placeholder="请填写问题" disabled>
                             </input>
                           </el-col>
                         </el-row>
                         <!--选项-->
-                        <el-radio-group v-model="item.answer" style="margin-left: 30px;text-align: left;display: block;margin-top: 10px">
-                          <el-radio v-for="opt in item.options" :label="opt.value" v-if="opt.label!=='null'" :key="opt.value">
+                        <el-radio-group v-model="item.answer" style="margin-left: 30px;text-align: left;display: block;margin-top: 10px" disabled>
+                          <el-radio v-for="opt in item.options" :key="opt.value" :label="opt.value" v-if="opt.label!=='null'" >
                             {{opt.label}}&nbsp;
-                          </el-radio>
+                          </el-radio><br>
                         </el-radio-group>
                       </el-form-item>
                     </div>
@@ -69,20 +94,26 @@
                         style="=">
                         <!--问题-->
                         <el-row>
-                          <el-col :span="2">
+                          <el-col :span="3">
                             <span>{{item.queNum}}.(多选)</span>
                           </el-col>
-                          <el-col :span="22">
+                          <el-col :span="20">
                             <input v-model.trim="item.singleContent" class="InputProblem" clearable placeholder="请填写问题" disabled>
                             </input>
                           </el-col>
                         </el-row>
                         <!--选项-->
-                        <el-checkbox-group v-model="item.options"  @change="handleChange(item)" style="margin-left: 30px;text-align: left;display: block;margin-top: 10px">
-                          <el-checkbox v-for="opt in item.options" :label="opt.value" :key="opt.value" v-if="opt.label!=='null'">
+                        <div v-for="opt in item.answers" style="text-align: left">
+                          <el-checkbox  style="margin-left: 0px" :label="opt.value" :key="opt.value" v-if="opt.value==='1'" checked disabled>
                             {{opt.label}}&nbsp;
                           </el-checkbox>
-                        </el-checkbox-group>
+                          <el-checkbox :label="opt.value" :key="opt.value" v-if="opt.value!=='1'&&opt.label!=null" disabled>
+                            {{opt.label}}&nbsp;
+                          </el-checkbox>
+                        </div>
+                        <!--                          <el-checkbox v-for="opt in item.options" :label="opt.value" :key="opt.value" v-if="opt.label!=='null'&&opt in answers" true-label>-->
+                        <!--                            {{opt.label}}&nbsp;-->
+                        <!--                          </el-checkbox>-->
                       </el-form-item>
                     </div>
                     <!--填空----2-->
@@ -92,16 +123,17 @@
                         style="=">
                         <!--问题-->
                         <el-row>
-                          <el-col :span="2">
+                          <el-col :span="3">
                             <span>{{item.queNum}}.(填空)</span>
                           </el-col>
-                          <el-col :span="22">
+                          <el-col :span="20">
                             <input v-model.trim="item.singleContent" class="InputProblem" clearable placeholder="请填写问题" disabled>
                             </input>
                           </el-col>
                         </el-row>
                         <el-row>
-                          <input v-model.trim="item.answer" class="InputAnswer" clearable >
+                          <input v-model.trim="item.answer" class="InputAnswer" clearable disabled v-if="item.answer!=='null'"/>
+                          <input value="未作答"  class="InputAnswer" clearable disabled v-else/>
                         </el-row>
                       </el-form-item>
                       <!-- 答案 -->
@@ -114,16 +146,16 @@
                         style="=">
                         <!--问题-->
                         <el-row>
-                          <el-col :span="2">
+                          <el-col :span="3">
                             <span>{{item.queNum}}.(评分)</span>
                           </el-col>
-                          <el-col :span="22">
+                          <el-col :span="20">
                             <input v-model.trim="item.singleContent" class="InputProblem" clearable placeholder="请填写问题" disabled>
                             </input>
                           </el-col>
                         </el-row>
                         <el-row>
-                          <el-rate v-model="item.answer" style="text-align: left;margin-left: 30px;height: 50px;margin-top: 10px" ></el-rate>
+                          <el-rate  style="text-align: left;margin-left: 30px;height: 50px;margin-top: 10px" v-model="item.answer">{{parseInt(item.answer)}}</el-rate>
                         </el-row>
                       </el-form-item>
                     </div>
@@ -134,14 +166,14 @@
                         <!--问题-->
                         <el-row>
                           <el-col :span="2">
-                            <span>{{item.queNum}}.(姓名)</span>
+                            <span>{{item.queNum}}.</span>
                           </el-col>
-                          <el-col :span="1">
+                          <el-col :span="4">
                             <input v-model.trim="item.singleContent" class="InputProblem" clearable placeholder="请填写问题" disabled>
                             </input>
                           </el-col>
-                          <el-col :span="21">
-                            <input v-model="item.answer" class="InputAnswer" style="margin-left: 0px" clearable  >
+                          <el-col :span="17">
+                            <input v-model="item.answer" class="InputAnswer" style="margin-left: 0px" clearable  disabled>
                             </input>
                           </el-col>
                         </el-row>
@@ -155,15 +187,15 @@
                         style="=">
                         <!--问题-->
                         <el-row>
-                          <el-col :span="2">
-                            <span>{{item.queNum}}.(学号)</span>
-                          </el-col>
                           <el-col :span="1">
+                            <span>{{item.queNum}}.</span>
+                          </el-col>
+                          <el-col :span="4">
                             <input v-model.trim="item.singleContent" class="InputProblem" clearable placeholder="请填写问题" disabled>
                             </input>
                           </el-col>
-                          <el-col :span="20">
-                            <input v-model="item.answer" class="InputAnswer" clearable  >
+                          <el-col :span="17">
+                            <input v-model="item.answer" class="InputAnswer" clearable  disabled>
                             </input>
                           </el-col>
                         </el-row>
@@ -177,15 +209,15 @@
                         style="=">
                         <!--问题-->
                         <el-row>
-                          <el-col :span="2">
-                            <span>{{item.queNum}}.(专业)</span>
+                          <el-col :span="3">
+                            <span>{{item.queNum}}.</span>
                           </el-col>
                           <el-col :span="1">
                             <input v-model.trim="item.singleContent" class="InputProblem" clearable placeholder="请填写问题" disabled>
                             </input>
                           </el-col>
                           <el-col :span="20">
-                            <input v-model="item.answer"  class="InputAnswer" clearable  >
+                            <input v-model="item.answer"  class="InputAnswer" clearable  disabled>
                             </input>
                           </el-col>
                         </el-row>
@@ -200,14 +232,14 @@
                         <!--问题-->
                         <el-row>
                           <el-col :span="3">
-                            <span>{{item.queNum}}.(毕业年份)</span>
+                            <span>{{item.queNum}}.</span>
                           </el-col>
                           <el-col :span="2">
                             <input v-model.trim="item.singleContent" class="InputProblem" clearable placeholder="请填写问题" disabled>
                             </input>
                           </el-col>
                           <el-col :span="18">
-                            <input  v-model="item.answer" class="InputAnswer" clearable  >
+                            <input  v-model="item.answer" class="InputAnswer" clearable disabled >
                             </input>
                           </el-col>
                         </el-row>
@@ -216,174 +248,207 @@
                     </div>
                   </div>
                 </vuedraggable>
-                <el-form-item>
-                  <el-button style="margin-top: 10px" @click="addSubmit(modelForm)">提交</el-button>
-                  <el-button @click="resetForm('modelForm')">重置</el-button>
-                </el-form-item>
               </div>
             </el-form>
           </div>
         </div>
         <!--右侧问卷-----------------1-->
-      </el-main>>
+      </el-main>
       <!---整个问卷div------1-->
     </el-container>
+<!--      <el-table-column label="查看内容">-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-button @click="details(scope.row)" style="color:#17B3A3" type="text" size="small" icon="el-icon-document">查看内容</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--        <div v-for="item in tableData.list">-->
+<!--         <span v-model="longId">{{item.longId}}</span>-->
+<!--        </div>-->
+    <br>
+    <el-pagination
+      background
+      layout="prev, pager, next,total"
+      :total="tableData.total"
+      :current-page="this.queryParams.pageNo"
+      :page-size="this.queryParams.pageSize"
+      @current-change="changePageNo">
+    </el-pagination>
   </div>
-
-
 </template>
 
 <script>
   import vuedraggable from 'vuedraggable'
+  import waves from '@/directive/waves' // Waves directive
   export default {
-    inject:['reload'],
-    name: 'add',
+    // inject:['reload'],
+    name:"sumView",
     components: {
       vuedraggable
     },
-    data() {
+    directives: { waves },
+    data () {
       return {
-        type:[],
-        rules: {
+        downloadLoading: false,
+        longId:"",
+        queryParams:{
+          pageNo:1,
+          pageSize:1,
+          paperId:""
         },
-        answerForm:{
-          paperId:"",
-          studentId:"",
-          topic:{
-            answer:"",
-            queId:"",
-          }
-        },
+        tableData:{},
+        list1:[],
         modelForm: {
           paperId:"",
           title:"",
           content:"",
           remarks:"",
+          longId:"",
           topic: [{
             singleContent:"",
-            queType: 0,
+            queType: "",
             queNum:"",
             options:[],
             /*问卷id*/
             // type:[],
             answer:"",
+            answers:[],
             queId:"",
           }]
         },
-        // editorOption:{
-        //   modules:{
-        //     toolbar:[
-        //       ['bold', 'italic'], //加粗，斜体，下划线，删除线
-        //       ['blockquote'],  //引用，代码块
-        //       [{ 'header': 1 }, { 'header': 2 }],  // 标题，键值对的形式；1、2表示字体大小
-        //       [{ 'list': 'ordered'}, { 'list': 'bullet' }],  //列表
-        //       [{ 'indent': '-1'}, { 'indent': '+1' }],  // 缩进
-        //       [{ 'align': []}],  // 缩进
-        //     ]
-        //   }
-        // }
+        answerslist:{},
       }
-
     },
     created(){
-      /*获取试卷的所有条目信息*/
-      this.modelForm.paperId=this.$route.params.id;
-      // this.modelForm.title=this.$route.params.title;
-      // this.modelForm.content=this.$route.params.content;
-      // this.modelForm.remarks=this.$route.params.remarks;
-      this.get("paper/getPaperAnswerQueList",(res)=>{
-        console.log("res.data",res.data);
-        this.modelForm.topic=res.data;
-        console.log(this.modelForm);
-      },{paper_id:this.$route.params.id});
-      this.get("paper/getOne",(res)=>{
-        this.modelForm.title=res.data.title;
-        this.modelForm.content=res.data.content;
-        this.modelForm.remarks=res.data.remarks;
-        console.log(res.msg);
-      },{id:this.modelForm.paperId});
-      this.buttonText="修改"
+
+      this.getData();
     },
-    methods: {
-      //选中受理机构
-      handleChange (item) {
-        // this.$emit('change', this.modelForm.topic.type);
-        item.answer="";
-        if(item.options[7]){
-          item.answer=item.answer+item.options[7];
-        }if(item.options[8]){
-          item.answer=item.answer+item.options[8];
-        }if(item.options[9]){
-          item.answer=item.answer+item.options[9];
-        }if(item.options[10]){
-          item.answer=item.answer+item.options[10];
-        }if(item.options[11]){
-          item.answer=item.answer+item.options[11];
-        }if(item.options[12]){
-          item.answer=item.answer+item.options[13];
-        }
-        console.log("value"+item.answer);
+    watch:{
+      queryParams:{
+        handler:function(){
+          this.getData();
+        },
+        deep:true
       },
-      end(evt) {
-        this.$refs.modelForm.clearValidate()
 
+    },
+    mounted(){},
+    methods:{
+      getData(){
+        this.queryParams.paperId=this.$route.params.paperId;
+        // console.log("paperId",this.queryParams.paperId);
+        this.get("sumView/list",(res)=>{
+          this.tableData=res.data;
+          this.modelForm.longId=this.tableData.list[0].longId;
+          this.modelForm.title=this.tableData.list[0].title;
+          this.modelForm.content=this.tableData.list[0].content;
+          this.modelForm.remarks=this.tableData.list[0].remarks;
+          console.log("this.tableData.list",this.tableData.list[0].longId);
+          this.get("sumView/getAnswerView",(res)=>{
+            console.log("res.data",res.data);
+            this.modelForm.topic=res.data;
+            console.log(this.modelForm.topic);
+            console.log("longId", this.modelForm.longId);
+          },{longId: this.modelForm.longId});
+        },this.queryParams);
+
+
+
+        // console.log(this.list1);
+        // // var longId=this.list1[0].longId;
+        // console.log("longID",this.list1[0].longId)
+        // this.get("sumView/getAnswerView",(res)=>{
+        //   console.log("res.data",res.data);
+        //   this.modelForm.topic=res.data;
+        //   console.log(this.modelForm.topic);
+        // },{longId:this.tableData.list.longId});
       },
-      addSubmit(modelForm) {
-        const paper={};
-        const PaperAnswerQueList = [];
-        modelForm.topic.forEach((item, index) => {
-          const PaperAnswerQue = {};
-          PaperAnswerQue.answer = item.answer;
-          PaperAnswerQue.studentId = "111111";
-          PaperAnswerQue.queId = item.queId;
-          PaperAnswerQueList.push(PaperAnswerQue);
-        });
-        paper.paperId=modelForm.paperId;
-        paper.longId=modelForm.longId;
-        paper.PaperAnswerQueList=PaperAnswerQueList;
-        console.log("paper"+paper);
-        this.insertPaperAnswerQueInfoList(paper)
+      changePageNo(i){
+        this.queryParams.pageNo=i;
       },
-      /*插入数据库*/
-      insertPaperAnswerQueInfoList(paper) {
-        this.axios({
-          method: 'post',
-          url: 'paperAnswer/insertAnswerList',
-          data: paper,
+      /*导出全部学生*/
+      handleDownloadAll(){
+        this.downloadLoading = true;
+        this.get("sumView/getAllAnswersToExcel",(res)=>{
+          this.answerslist=res.data;
+          console.log("全部answers"+ res.data);
+
+        // let list = JSON.stringify(this.students);
+        // console.log("list"+list);
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = [];
+          this.modelForm.topic.forEach((item, index) => {
+           tHeader.push(item.queNum +"."+item.singleContent);
+          });
+          console.log("theader",tHeader);
+          const filterVal = [];
+          this.modelForm.topic.forEach((item, index) => {
+            filterVal.push("answer"+index);
+          });
+          console.log("file",filterVal);
+          console.log("filterVal",filterVal);
+          // const answers = {};
+          // const list=[];
+          //   answers.answer0=this.modelForm.topic[0].answer;
+          //   console.log("ans",this.modelForm.topic[0].answer);
+          //   answers.answer0=this.modelForm.topic[1].answer;
+          //   answers.answer1=this.modelForm.topic[2].answer;
+          //   answers.answer2=this.modelForm.topic[3].answer;
+          //   answers.answer3=this.modelForm.topic[4].answer;
+          //   answers.answer4=this.modelForm.topic[5].answer;
+          //  // list.push(answers);
+          // list.push(answers);
+          // console.log("answers",list);
+          // let homeObj = JSON.stringify(this.answerslist);
+          // console.log("h",homeObj);
+          const data = this.formatJson(filterVal, this.answerslist);
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: this.modelForm.title
+          })
+          this.downloadLoading = false;
         })
-          .then(result => {
-            console.log("map"+result.data.data.responseList);
-            if (result.data.statu === 0) {
-              this.tableData = result.data.data.responseList;
-              this.$message({
-                message: result.data.msg,
-                type: 'success'
-              })
-            } else {
-              this.$message({
-                message: result.data.msg,
-                type: 'error'
-              })
-            }
-          }).catch(err => {
-          console.log(err);
-        });
-        // const result = await reqInsertBankSingleChoiceQueInfoList(bankSingleChoiceQueList)
-
+        },{paperId: this.queryParams.paperId});
+      },
+      /*格式化*/
+      formatJson(filterVal, jsonData) {
+        return jsonData.map(v => filterVal.map(j => {
+          if (j === 'sex') {
+            return v[j] === '1' ? '女' : '男'
+          } else if (j === 'mail') {
+            return v[j] || '暂无绑定邮箱'
+          } else if (j === 'phone') {
+            return v[j] || '暂无绑定手机号'
+          } else {
+            return v[j]
+          }
+        }))
+      },
+      //查看详情
+      toAnswerView(item){
+        this.$router.push("/"+item.paperId+"/"+item.longId);
       }
-
     }
-
   }
-
 </script>
 
-
-
+<style scoped>
+  .el-table .cell {
+    text-align: center;
+  }
+  .el-table__header th, .el-table__header tr {
+    background-color: #5fb381;
+    color: black;
+  }
+  .el-pagination.is-background .el-pager li:not(.disabled).active {
+    background-color: #5fb381;
+    color: #FFF;
+  }
+</style>
 <style scoped>
   /*问卷左右布局*/
   .right{
-    padding: 100px  50px;
+    padding: 20px;
     background-color: #FFFFFF;
     display: inline-block;
     width: 70%;
@@ -534,7 +599,7 @@
     text-align: left;
     color: #494949;
     /* 这里是修改为自己的样式 */
-    border-bottom: 1px solid #8e8bab;
+    /*border-bottom: 1px solid #8e8bab;*/
     /*border-bottom-left-radius: 1px;*/
     /*border-bottom-right-radius: 1px;*/
     /* 使用怪异盒模型，也可以不使用 */
